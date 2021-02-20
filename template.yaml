@@ -170,8 +170,6 @@ Resources:
                         Path: /item
                         Method: get
                         RestApiId: !Ref TodoApi
-                        Auth:
-                            Authorizer: CognitoAuthorizer
 
     AddTodoFunction:
         Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -196,8 +194,6 @@ Resources:
                         Path: /item
                         Method: POST
                         RestApiId: !Ref TodoApi
-                        Auth:
-                            Authorizer: CognitoAuthorizer
 
     # This role allows API Gateway to push execution and access logs to CloudWatch logs
     ApiGatewayPushToCloudWatchRole:
