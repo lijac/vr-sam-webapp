@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Content, Grid, Row, Column, Button } from "carbon-components-react";
+import { Grid, Row, Column, Button } from "carbon-components-react";
 import axios from "axios";
 import ToDo from "./ToDo";
 
