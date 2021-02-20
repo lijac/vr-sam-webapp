@@ -1,18 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Container, Jumbotron, Row, Col, Alert, Button } from "reactstrap";
+import { Content, Grid, Row, Column, Button } from "carbon-components-react";
 import axios from "axios";
 import ToDo from "./ToDo";
 
-import "./App.css";
+import "./App.scss";
 import logo from "./aws.png";
 
 import config from "./config";
 
 function App() {
-    const [alert, setAlert] = useState();
-    const [alertStyle, setAlertStyle] = useState("info");
-    const [alertVisible, setAlertVisible] = useState(false);
-    const [alertDismissable, setAlertDismissable] = useState(false);
     const [idToken, setIdToken] = useState("");
     const [toDos, setToDos] = useState([]);
 
@@ -33,17 +29,6 @@ function App() {
             return Promise.reject(error);
         }
     );
-
-    function onDismiss() {
-        setAlertVisible(false);
-    }
-
-    function updateAlert({ alert, style, visible, dismissable }) {
-        setAlert(alert ? alert : "");
-        setAlertStyle(style ? style : "info");
-        setAlertVisible(visible);
-        setAlertDismissable(dismissable ? dismissable : null);
-    }
 
     const clearCredentials = () => {
         window.location.href = config.redirect_url;
@@ -110,48 +95,35 @@ function App() {
 
     return (
         <div className="App">
-            <Container>
-                <Alert
-                    color={alertStyle}
-                    isOpen={alertVisible}
-                    toggle={alertDismissable ? onDismiss : null}
-                >
-                    <p dangerouslySetInnerHTML={{ __html: alert }}></p>
-                </Alert>
-                <Jumbotron>
-                    <Row>
-                        <Col md="6" className="logo">
-                            <h1>Serverless Todo</h1>
-                            <p>This is a demo that showcases AWS serverless.</p>
-                            <p>
-                                The application is built using the SAM CLI
-                                toolchain, and uses AWS Lambda, Amazon DynamoDB,
-                                and Amazon API Gateway for API services and
-                                Amazon Cognito for identity.
-                            </p>
+            <Grid className="jumbotron">
+                <Row>
+                    <Column md={4} className="logo">
+                        <h1>Serverless App</h1>
+                        <p>This is a demo that showcases AWS serverless.</p>
+                        <p>
+                            The application is built using the SAM CLI
+                            toolchain, and uses AWS Lambda, Amazon DynamoDB, and
+                            Amazon API Gateway for API services and Amazon
+                            Cognito for identity.
+                        </p>
 
-                            <img src={logo} alt="Logo" />
-                        </Col>
-                        <Col md="6">
-                            {idToken.length > 0 ? (
-                                <ToDo
-                                    updateAlert={updateAlert}
-                                    toDos={toDos}
-                                    addToDo={addToDo}
-                                />
-                            ) : (
-                                <Button
-                                    href={`https://${config.cognito_hosted_domain}/login?response_type=token&client_id=${config.aws_user_pools_web_client_id}&redirect_uri=${config.redirect_url}`}
-                                    color="primary"
-                                    className="mt-5 float-center"
-                                >
-                                    Log In
-                                </Button>
-                            )}
-                        </Col>
-                    </Row>
-                </Jumbotron>
-            </Container>
+                        <img src={logo} alt="Logo" />
+                    </Column>
+                    <Column md={4}>
+                        {idToken.length > 0 ? (
+                            <ToDo toDos={toDos} addToDo={addToDo} />
+                        ) : (
+                            <Button
+                                href={`https://${config.cognito_hosted_domain}/login?response_type=token&client_id=${config.aws_user_pools_web_client_id}&redirect_uri=${config.redirect_url}`}
+                                color="primary"
+                                className="mt-5 float-center"
+                            >
+                                Log In
+                            </Button>
+                        )}
+                    </Column>
+                </Row>
+            </Grid>
         </div>
     );
 }
